@@ -1,0 +1,26 @@
+
+truck.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+tyre
+  rotate: false
+  xy: 1, 8
+  size: 190, 193
+  orig: 190, 193
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 193, 106
+  size: 121, 95
+  orig: 121, 95
+  offset: 0, 0
+  index: -1
+bar
+  rotate: false
+  xy: 1, 1
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1

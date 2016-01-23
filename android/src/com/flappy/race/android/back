@@ -1,0 +1,28 @@
+package com.flappy.race.android;
+
+import android.os.Bundle;
+
+import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.flappy.race.MyGdxGame;
+
+public class AndroidLauncher extends AndroidApplication {
+	@Override
+	protected void onCreate (Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+		config.useCompass = true;
+		config.useAccelerometer=true;
+		config.useWakelock=true;
+		config.touchSleepTime=16;
+		config.maxSimultaneousSounds = 4;
+
+		//config.touchSleepTime=30;
+		initialize(new MyGdxGame(), config);
+
+
+	}
+
+
+}

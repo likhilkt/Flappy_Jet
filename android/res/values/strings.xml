@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Flappy Jet</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="app_id">Google play service app id</string>
+    <string name="number_guesses_leaderboard">LEADERBOARD 1 ID</string>
+    <string name="number_guesses_leaderboard_ld">LEADERBOARD 2 ID</string>
+
+
+</resources>

@@ -1,0 +1,202 @@
+
+GameAssets.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+mctrl
+  rotate: false
+  xy: 1, 489
+  size: 526, 526
+  orig: 526, 526
+  offset: 0, 0
+  index: -1
+enemy2
+  rotate: false
+  xy: 1, 251
+  size: 350, 236
+  orig: 350, 236
+  offset: 0, 0
+  index: -1
+enemy
+  rotate: false
+  xy: 353, 200
+  size: 200, 287
+  orig: 200, 287
+  offset: 0, 0
+  index: -1
+play
+  rotate: false
+  xy: 1, 7
+  size: 200, 242
+  orig: 200, 242
+  offset: 0, 0
+  index: -1
+gear
+  rotate: false
+  xy: 203, 109
+  size: 140, 140
+  orig: 140, 140
+  offset: 0, 0
+  index: -1
+jet
+  rotate: false
+  xy: 345, 86
+  size: 270, 112
+  orig: 270, 112
+  offset: 0, 0
+  index: -1
+bomb1
+  rotate: false
+  xy: 203, 49
+  size: 132, 58
+  orig: 132, 58
+  offset: 0, 0
+  index: -1
+healthup
+  rotate: false
+  xy: 529, 821
+  size: 249, 194
+  orig: 249, 194
+  offset: 0, 0
+  index: -1
+playpress
+  rotate: false
+  xy: 529, 583
+  size: 195, 236
+  orig: 195, 236
+  offset: 0, 0
+  index: -1
+about
+  rotate: false
+  xy: 555, 387
+  size: 160, 194
+  orig: 160, 194
+  offset: 0, 0
+  index: -1
+lasertext
+  rotate: false
+  xy: 529, 538
+  size: 11, 43
+  orig: 11, 43
+  offset: 0, 0
+  index: -1
+health
+  rotate: false
+  xy: 529, 526
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+htp
+  rotate: false
+  xy: 617, 191
+  size: 160, 194
+  orig: 160, 194
+  offset: 0, 0
+  index: -1
+htppress
+  rotate: false
+  xy: 717, 387
+  size: 160, 194
+  orig: 160, 194
+  offset: 0, 0
+  index: -1
+lbd
+  rotate: false
+  xy: 726, 625
+  size: 160, 194
+  orig: 160, 194
+  offset: 0, 0
+  index: -1
+lbdpress
+  rotate: false
+  xy: 780, 821
+  size: 160, 194
+  orig: 160, 194
+  offset: 0, 0
+  index: -1
+bullet2
+  rotate: false
+  xy: 726, 597
+  size: 100, 26
+  orig: 100, 26
+  offset: 0, 0
+  index: -1
+share
+  rotate: false
+  xy: 779, 191
+  size: 160, 194
+  orig: 160, 194
+  offset: 0, 0
+  index: -1
+geardown
+  rotate: false
+  xy: 879, 483
+  size: 140, 140
+  orig: 140, 140
+  offset: 0, 0
+  index: -1
+aboutpress
+  rotate: false
+  xy: 617, 1
+  size: 155, 188
+  orig: 155, 188
+  offset: 0, 0
+  index: -1
+sharepress
+  rotate: false
+  xy: 774, 1
+  size: 155, 188
+  orig: 155, 188
+  offset: 0, 0
+  index: -1
+rdx
+  rotate: false
+  xy: 879, 404
+  size: 101, 77
+  orig: 101, 77
+  offset: 0, 0
+  index: -1
+coin
+  rotate: false
+  xy: 888, 743
+  size: 76, 76
+  orig: 76, 76
+  offset: 0, 0
+  index: -1
+
+GameAssets2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+mctrlpress
+  rotate: false
+  xy: 1, 1
+  size: 526, 526
+  orig: 526, 526
+  offset: 0, 0
+  index: -1
+
+GameAssets3.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+tctrl
+  rotate: false
+  xy: 1, 1
+  size: 526, 526
+  orig: 526, 526
+  offset: 0, 0
+  index: -1
+
+GameAssets4.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+tctrlpress
+  rotate: false
+  xy: 1, 1
+  size: 526, 526
+  orig: 526, 526
+  offset: 0, 0
+  index: -1

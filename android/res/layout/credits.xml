@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="30dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Created by Rabbitfoot"
+        android:id="@+id/textView6"
+        android:textColor="#111111"
+        android:layout_margin="6dp" />
+
+
+    <TextView
+        android:autoLink="web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="\n\n---Thanks---\n\nMusic by Eric Matyas  www.soundimage.org  Sprites from : http://millionthvector.blogspot.in/p/free-sprites.html"
+        android:id="@+id/textView7"
+        android:textColor="#222222" />
+</LinearLayout>
