@@ -449,7 +449,6 @@ public class WorldController extends InputAdapter {
     }
 
     public void disposeSounds() {
-        // Gdx.app.debug("swe", "dispose sound");
         wavSound.dispose();
         crashSound.dispose();
         eneExpSound.dispose();
