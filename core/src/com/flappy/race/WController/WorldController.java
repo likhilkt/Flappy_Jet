@@ -508,7 +508,7 @@ public class WorldController extends InputAdapter {
     }
 
     private void moveBall(float delta) {
-        //if(++fuck%4==0)
+
         switch (contrId) {
             case 1:
                 ball.tapBitch();
@@ -584,12 +584,10 @@ public class WorldController extends InputAdapter {
 
     public void fire() {
         if (!explode && safeFire && fireFuck) {
-            //fireFuck = false;
             fireCount++;
             //System.out.println("fire");
             ball.fire(world);
             wavSound.play();
-            //fireFuck = true;
         }
     }
 
