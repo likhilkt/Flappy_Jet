@@ -7,25 +7,26 @@ import android.widget.TextView;
 
 import com.flappy.race.Utils.Constants;
 
-public class MainActivity  extends Activity/*extends BaseGameActivity*/ {
-    long hs,ld;
-    TextView t2,t4;
+public class MainActivity extends Activity/*extends BaseGameActivity*/ {
+    long hs, ld;
+    TextView t2, t4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_main);
 
-        t2= (TextView)findViewById(R.id.textView2);
-        t4= (TextView)findViewById(R.id.textView4);
+        t2 = (TextView) findViewById(R.id.textView2);
+        t4 = (TextView) findViewById(R.id.textView4);
 
-        hs=0;
-        if(getIntent().hasExtra(Constants.HSCORE)){
-            hs=getIntent().getLongExtra(Constants.HSCORE,0);
-            ld=getIntent().getLongExtra(Constants.HDIST,0);
+        hs = 0;
+        if (getIntent().hasExtra(Constants.HSCORE)) {
+            hs = getIntent().getLongExtra(Constants.HSCORE, 0);
+            ld = getIntent().getLongExtra(Constants.HDIST, 0);
 
-            t2.setText(""+hs);
-            t4.setText(""+ld);
+            t2.setText("" + hs);
+            t4.setText("" + ld);
         }
     }
 

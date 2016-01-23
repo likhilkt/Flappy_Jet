@@ -44,35 +44,36 @@ public class GameScreen extends AbstractGameScreen {
     private static final String TAG = GameScreen.class.getName();
     private WorldController worldController;
     private WorldRenderer worldRenderer;
-    private boolean paused,WAIT;
-    float sx,sy;
+    private boolean paused, WAIT;
+    float sx, sy;
     //modi
     Stage stage;
     Skin defaultSkin;
     BitmapFont font12;
-    TextButton gr1TextButton,gr2TextButton,gr3TextButton,startTextButton,gr4TextButton;
+    TextButton gr1TextButton, gr2TextButton, gr3TextButton, startTextButton, gr4TextButton;
     TextButton.TextButtonStyle textButtonStyle;
     Label.LabelStyle labelStyle;
     public ProgressBar bar;
 
 
-    Label speedLabel,healthLabel;
+    Label speedLabel, healthLabel;
     //emodi
-    int LEVEL,VID;
+    int LEVEL, VID;
 
     //public MenuScreen.MyGameCallback myGameCallback;
     public IActivityRequestHandler iActivityRequestHandler;
-    public GameScreen(Game game,int vehicle,IActivityRequestHandler iActivityRequestHandler){
+
+    public GameScreen(Game game, int vehicle, IActivityRequestHandler iActivityRequestHandler) {
         super(game);
         //this.myGameCallback = myGameCallback;
         this.iActivityRequestHandler = iActivityRequestHandler;
-        WAIT=true;
+        WAIT = true;
 
         VID = vehicle;
 
         Gdx.input.setCatchBackKey(true);
-        sx=Gdx.graphics.getWidth();
-        sy=Gdx.graphics.getHeight();
+        sx = Gdx.graphics.getWidth();
+        sy = Gdx.graphics.getHeight();
         //modi
         stage = new Stage();
 
@@ -82,7 +83,7 @@ public class GameScreen extends AbstractGameScreen {
         parameter.size = 28;
         //parameter.borderColor = Color.WHITE;
         //parameter.borderWidth = 2;
-        parameter.color=Color.YELLOW;
+        parameter.color = Color.YELLOW;
 
 
         font12 = generator.generateFont(parameter); // font size 12 pixel
@@ -90,21 +91,19 @@ public class GameScreen extends AbstractGameScreen {
 
         textButtonStyle = new TextButton.TextButtonStyle();
 
-        textButtonStyle.font=font12;
-        textButtonStyle.up=new Image(Assets.instance.assetGear.gearAtlasRegion).getDrawable();
-        textButtonStyle.down=new Image(Assets.instance.assetGearDown.gearDownAtlasRegion).getDrawable();
+        textButtonStyle.font = font12;
+        textButtonStyle.up = new Image(Assets.instance.assetGear.gearAtlasRegion).getDrawable();
+        textButtonStyle.down = new Image(Assets.instance.assetGearDown.gearDownAtlasRegion).getDrawable();
 
         labelStyle = new Label.LabelStyle();
         labelStyle.font = font12;
-        labelStyle.fontColor= Color.WHITE;
+        labelStyle.fontColor = Color.WHITE;
 
 
-        speedLabel = new Label("00",defaultSkin);
-        healthLabel =new Label("Health ",defaultSkin);
+        speedLabel = new Label("00", defaultSkin);
+        healthLabel = new Label("Health ", defaultSkin);
 
 //emodi
-
-
 
 
     }
@@ -114,24 +113,24 @@ public class GameScreen extends AbstractGameScreen {
     public void render(float deltaTime) {
         if (!paused) {
             // Sets the clear screen color to: Cornflower Blue
-            Gdx.gl.glClearColor(0/255f, 0/255f, 0/255f, 1);
+            Gdx.gl.glClearColor(0 / 255f, 0 / 255f, 0 / 255f, 1);
 
             // Clears the screen
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             // Render game world to screen
             // Update game world by the time that has passed
             // since last rendered frame.
-           // worldController.update(deltaTime);
+            // worldController.update(deltaTime);
             worldRenderer.render(deltaTime);
-            speedLabel.setText("Coin : "+worldController.getCoinCount()+"   Hit : " + worldController.getCoins() + "   Distance : " + worldController.getDistance() + "m"+" Bullet : "+worldController.getFireCount());
+            speedLabel.setText("Coin : " + worldController.getCoinCount() + "   Hit : " + worldController.getCoins() + "   Distance : " + worldController.getDistance() + "m" + " Bullet : " + worldController.getFireCount());
             stage.act(deltaTime);
             stage.draw();
 
-       }
-
+        }
 
 
     }
+
     float accX;
 
 
@@ -143,20 +142,18 @@ public class GameScreen extends AbstractGameScreen {
 
     @Override
     public void show() {
-        worldController = new WorldController(game,VID,this);
+        worldController = new WorldController(game, VID, this);
 
 
         worldRenderer = new WorldRenderer(worldController);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
-       multiplexer.addProcessor(stage);
-       multiplexer.addProcessor(worldController);
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(worldController);
         Gdx.input.setInputProcessor(multiplexer);
 
 
-
-
-        Table table = new Table( defaultSkin );
+        Table table = new Table(defaultSkin);
         table.setSize(stage.getWidth(), stage.getHeight());
         // add the table to the stage and retrieve its layout
         stage.addActor(table);
@@ -166,7 +163,7 @@ public class GameScreen extends AbstractGameScreen {
         speedLabel.setStyle(labelStyle);
         stage.addActor(speedLabel);
 
-       gr1TextButton = new TextButton("TAP",defaultSkin);
+        gr1TextButton = new TextButton("TAP", defaultSkin);
         gr1TextButton.setStyle(textButtonStyle);
         gr1TextButton.setPosition(sx - 120, 0);
         gr1TextButton.setSize(120, 120);
@@ -198,7 +195,7 @@ public class GameScreen extends AbstractGameScreen {
         bar.setAnimateDuration(1);
         stage.addActor(bar);
 
-        healthLabel.setPosition(bar.getX()-healthLabel.getWidth()*1.8f, sy - healthLabel.getHeight());
+        healthLabel.setPosition(bar.getX() - healthLabel.getWidth() * 1.8f, sy - healthLabel.getHeight());
         healthLabel.setStyle(labelStyle);
         stage.addActor(healthLabel);
 
@@ -249,7 +246,7 @@ public class GameScreen extends AbstractGameScreen {
             }
         });
 */
-       // gr1TextButton.setBackground();
+        // gr1TextButton.setBackground();
       /*  gr1TextButton.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                // Gdx.app.log("Example", "touch started at (" + x + ", " + y + ")");
@@ -323,10 +320,9 @@ public class GameScreen extends AbstractGameScreen {
 */
 
 
-
     }
 
-    public void showWin(String string){
+    public void showWin(String string) {
 
 
         Label label = new Label(string, defaultSkin);
@@ -337,22 +333,21 @@ public class GameScreen extends AbstractGameScreen {
         iActivityRequestHandler.showAds(true);
         Dialog dialog =
                 new Dialog("Game Over", defaultSkin, "dialog") {
-                    protected void result (Object object) {
+                    protected void result(Object object) {
                         //System.out.println("Chosen: " + object.getClass());
-                        if((Boolean)object) {
+                        if ((Boolean) object) {
                             iActivityRequestHandler.showInt(true);
                             worldController.backToMenu();
 
 
-                        }
-                        else{
+                        } else {
                             iActivityRequestHandler.showAds(false);
                             //game.setScreen(new GameScreen(game,1));
                             System.out.println("what the fuck?");
                             worldController.resetAll();
                             worldRenderer.zoom = 3f;
                             bar.setValue(5);
-                            WAIT=true;
+                            WAIT = true;
 
                         }
                     }

@@ -17,21 +17,23 @@ import com.flappy.race.Utils.UserData;
  * Created by Likhil on 10/20/2015.
  */
 public class Ball {
-    float maxSpeed,lastMaxSpeed;
+    float maxSpeed, lastMaxSpeed;
     Body mainBody;
-    UserData box2DSprite,beam;
+    UserData box2DSprite, beam;
 
     final short GROUP_PLAYER = -1;
     int del;
     int maxSpeedFact = 1;
 
-    Array<Body> bullets ;
-    public Ball(){del=0;
+    Array<Body> bullets;
+
+    public Ball() {
+        del = 0;
     }
 
-    public void dispose(){
-       // img2.dispose();
-       // img.dispose();
+    public void dispose() {
+        // img2.dispose();
+        // img.dispose();
 
        /* while (mainBody.getFixtureList().size>0){
             mainBody.destroyFixture(mainBody.getFixtureList().pop());
@@ -41,34 +43,34 @@ public class Ball {
     }
 
 
-    public Ball(World world,float x, float y){
+    public Ball(World world, float x, float y) {
         //initEveryShit
         bullets = new Array<Body>(20);
-        maxSpeed=20;
+        maxSpeed = 20;
         lastMaxSpeed = maxSpeed;
         del = 0;
         maxSpeedFact = 1;
-        runway(world,x,y);
+        runway(world, x, y);
         BodyDef bodyDef = new BodyDef();
         //bodyDef.gravityScale=0;
-        bodyDef.position.set(x,y);
-        bodyDef.type= BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(x, y);
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.fixedRotation = true;
         mainBody = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.friction=1;
-        fixtureDef.restitution=0.0f;
+        fixtureDef.friction = 1;
+        fixtureDef.restitution = 0.0f;
         fixtureDef.density = 2f;
 
-       // fixtureDef.filter.groupIndex=GROUP_PLAYER;
+        // fixtureDef.filter.groupIndex=GROUP_PLAYER;
 
         fixtureDef.filter.categoryBits = Constants.CATEGORY_FLIGHT;
         fixtureDef.filter.maskBits = Constants.MASK_FLIGHT;
 
-        BodyEditorLoader bodyEditorLoader =new BodyEditorLoader(Gdx.files.internal("forest/jumps.json"));
+        BodyEditorLoader bodyEditorLoader = new BodyEditorLoader(Gdx.files.internal("forest/jumps.json"));
 
-        bodyEditorLoader.attachFixture(mainBody,"jet",fixtureDef,5);
+        bodyEditorLoader.attachFixture(mainBody, "jet", fixtureDef, 5);
 
         /*CircleShape circleShape = new CircleShape();
         circleShape.setRadius(1);
@@ -89,17 +91,17 @@ public class Ball {
 
     }
 
-    public void runway(World world,float x, float y){
+    public void runway(World world, float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(x+12,y-0.5f);
+        bodyDef.position.set(x + 12, y - 0.5f);
 
         Body b = world.createBody(bodyDef);
 
         FixtureDef fixtureDef = new FixtureDef();
 
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(20,0.3f);
+        polygonShape.setAsBox(20, 0.3f);
 
         fixtureDef.shape = polygonShape;
         fixtureDef.filter.categoryBits = Constants.CATEGORY_WALL;
@@ -108,25 +110,27 @@ public class Ball {
         b.createFixture(fixtureDef);
         polygonShape.dispose();
 
-        UserData userData = new UserData(Assets.instance.assetGear.gearAtlasRegion,-99);
+        UserData userData = new UserData(Assets.instance.assetGear.gearAtlasRegion, -99);
         b.setUserData(userData);
 
     }
 
 
-    public void nitro(){
+    public void nitro() {
         maxSpeedFact = 3;
     }
-    public void releaseNitro(){
+
+    public void releaseNitro() {
         maxSpeedFact = 1;
-        mainBody.setLinearVelocity(maxSpeed,0);
+        mainBody.setLinearVelocity(maxSpeed, 0);
     }
 
     public void setMaxSpeed() {
         //maxSpeed = lastMaxSpeed;
-        maxSpeed=maxSpeed>45?45:maxSpeed+8f;
+        maxSpeed = maxSpeed > 45 ? 45 : maxSpeed + 8f;
     }
-    public void dcrMaxSpeed(){
+
+    public void dcrMaxSpeed() {
         //lastMaxSpeed = maxSpeed;
         //maxSpeed=15;
     }
@@ -135,14 +139,15 @@ public class Ball {
         return maxSpeed;
     }
 
-    public float getPositionX(){
+    public float getPositionX() {
         return mainBody.getPosition().x;
     }
-    public float getPositionY(){
+
+    public float getPositionY() {
         return mainBody.getPosition().y;
     }
 
-    public void goBitch(float acclY){
+    public void goBitch(float acclY) {
 
         if (mainBody.getLinearVelocity().x < maxSpeed * maxSpeedFact)
             mainBody.applyForceToCenter(300, 0, true);
@@ -151,18 +156,19 @@ public class Ball {
             mainBody.applyForceToCenter(0, -acclY * 350, true);
             //mainBody.applyForceToCenter(0, -(Math.abs(acclY)/acclY )* 300, true);
         }
-    //}
+        //}
         //mainBody.setTransform(mainBody.getPosition(), -acclY / 20);
     }
 
-    public void tapBitch(){
+    public void tapBitch() {
         if (mainBody.getLinearVelocity().x < maxSpeed * maxSpeedFact)
             mainBody.applyForceToCenter(300, 0, true);
 
     }
-    public void tap(){
+
+    public void tap() {
         //if (Math.abs(mainBody.getLinearVelocity().y) < 35)
-            mainBody.applyForceToCenter(0,10000,true);
+        mainBody.applyForceToCenter(0, 10000, true);
 
         System.out.println("fuck yoou su");
     }
@@ -170,7 +176,7 @@ public class Ball {
     BodyDef fbodyDef;
     FixtureDef ffixtureDef;
 
-    private void fireInit(World world){
+    private void fireInit(World world) {
         fbodyDef = new BodyDef();
 
         fbodyDef.type = BodyDef.BodyType.KinematicBody;
@@ -187,21 +193,22 @@ public class Ball {
     }
 
 
-    public Rectangle getBoundingRectangle(){
+    public Rectangle getBoundingRectangle() {
 
         return (box2DSprite.getBoundingRectangle());
     }
-    private void fireFuck(World world){
-        for(int i=0;i<20;i++){
-            fbodyDef.position.set(mainBody.getPosition().x-10,mainBody.getPosition().y);
-            Body b=world.createBody(fbodyDef);
+
+    private void fireFuck(World world) {
+        for (int i = 0; i < 20; i++) {
+            fbodyDef.position.set(mainBody.getPosition().x - 10, mainBody.getPosition().y);
+            Body b = world.createBody(fbodyDef);
             PolygonShape polygonShape = new PolygonShape();
-            polygonShape.setAsBox(0.6f,0.3f);
+            polygonShape.setAsBox(0.6f, 0.3f);
             ffixtureDef.shape = polygonShape;
 
             b.createFixture(ffixtureDef);
             polygonShape.dispose();
-            beam = new UserData(Assets.instance.assetBullet.bulletAtlasRegion,Constants.TYPE_BULLET);
+            beam = new UserData(Assets.instance.assetBullet.bulletAtlasRegion, Constants.TYPE_BULLET);
             beam.setZIndex(9f);
             b.setUserData(beam);
 
@@ -210,20 +217,20 @@ public class Ball {
 
     }
 
-    public void resetBullet(Body temp){
-            //Body temp = bullets.pop();
+    public void resetBullet(Body temp) {
+        //Body temp = bullets.pop();
 
-            temp.setLinearVelocity(0,0);
-            temp.setTransform(0, 0, temp.getAngle());
-            bullets.add(temp);
+        temp.setLinearVelocity(0, 0);
+        temp.setTransform(0, 0, temp.getAngle());
+        bullets.add(temp);
 
-            //System.out.println("in resetbull "+ bullets.size);
+        //System.out.println("in resetbull "+ bullets.size);
     }
 
-    public void fire(World world){
-        if(bullets.size>0) {
+    public void fire(World world) {
+        if (bullets.size > 0) {
             Body temp = bullets.removeIndex(0);
-            temp.setTransform(mainBody.getPosition().x+3,mainBody.getPosition().y,temp.getAngle());
+            temp.setTransform(mainBody.getPosition().x + 3, mainBody.getPosition().y, temp.getAngle());
             temp.setLinearVelocity(120, mainBody.getLinearVelocity().y);
             //System.out.println("pop " + bullets.size + "total :"+world.getBodyCount());
             // bullets.add(temp);

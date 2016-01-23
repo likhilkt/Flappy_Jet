@@ -19,7 +19,7 @@ import net.dermetfan.gdx.graphics.g2d.Box2DSprite;
 /**
  * Created by Likhil on 8/30/2015.
  */
-public class WorldRenderer implements Disposable{
+public class WorldRenderer implements Disposable {
     //private Box2DDebugRenderer b2debugRenderer;
     WorldController worldController;
     private final float TIME_STEP = 1 / 300f;
@@ -31,18 +31,18 @@ public class WorldRenderer implements Disposable{
     float VHX2;
 
     Texture background;
-    boolean drawHill=true;
+    boolean drawHill = true;
     float camY;
 
-    public WorldRenderer (WorldController worldController) {
+    public WorldRenderer(WorldController worldController) {
         this.worldController = worldController;
-        drawHill=true;
+        drawHill = true;
         background = new Texture(Gdx.files.internal("bgn.jpg"));
         background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH,
                 Constants.VIEWPORT_HEIGHT);
-        camY = Constants.VIEWPORT_HEIGHT/2+1;
-       // camera.zoom = 1.2f;
+        camY = Constants.VIEWPORT_HEIGHT / 2 + 1;
+        // camera.zoom = 1.2f;
 
 
         //camera.position.set(worldController.myCar.getCarX() + 3, worldController.myCar.getCarY() + 3, 0);
@@ -51,27 +51,26 @@ public class WorldRenderer implements Disposable{
 
         batch = new SpriteBatch();
         //b2debugRenderer = new Box2DDebugRenderer();
-        polygonSpriteBatch= new PolygonSpriteBatch();
+        polygonSpriteBatch = new PolygonSpriteBatch();
 
     }
 
-    boolean sasi=true;
-    public float zoom=3f;
+    boolean sasi = true;
+    public float zoom = 3f;
 
-    public void render(float deltaTime){
+    public void render(float deltaTime) {
         updateBodies(deltaTime);
 
         accumulator += worldController.dt;
-        while (accumulator >= worldController.dt &&sasi) {
+        while (accumulator >= worldController.dt && sasi) {
             worldController.world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
         }
-        if(worldController.isDist && worldController.ball.getPositionX()>worldController.start){
+        if (worldController.isDist && worldController.ball.getPositionX() > worldController.start) {
             camera.position.set(worldController.ball.getPositionX() + 18, worldController.ball.getPositionY(), 0f);
-            if(worldController.ball.getPositionX()>worldController.end)
+            if (worldController.ball.getPositionX() > worldController.end)
                 worldController.isDist = false;
-        }
-        else {
+        } else {
             camera.position.set(worldController.ball.getPositionX() + 18, worldController.centerY, 0f);
         }
 
@@ -86,9 +85,9 @@ public class WorldRenderer implements Disposable{
     }
 
     private void updateBodies(float dt) {
-        while (worldController.deleteBodies.size>0) {
+        while (worldController.deleteBodies.size > 0) {
             worldController.world.destroyBody(worldController.deleteBodies.pop());
-             }
+        }
         worldController.update(dt);
     }
 
@@ -115,11 +114,11 @@ public class WorldRenderer implements Disposable{
 
         drawCoin(batch);
         batch.end();
-       // if(drawHill)
-       // {
-            drawHill();
-       //     drawHill=false;
-       // }
+        // if(drawHill)
+        // {
+        drawHill();
+        //     drawHill=false;
+        // }
 
         //b2debugRenderer.render(worldController.world, camera.combined);
         //worldController.p.update(worldController.dt);
@@ -128,22 +127,22 @@ public class WorldRenderer implements Disposable{
 
     private void drawCoin(SpriteBatch batch) {
 
-        for(int i=0;i<10;i++)
+        for (int i = 0; i < 10; i++)
             worldController.objectCreator.coinSprites.get(i).draw(batch);
     }
 
     private void drawHill() {
         polygonSpriteBatch.begin();
 
-        Array<Body> list=new Array<Body>();
+        Array<Body> list = new Array<Body>();
         worldController.world.getBodies(list);
 
-        for(int i=0;i<list.size;i++){
-            if(list.get(i).getUserData() instanceof Integer){
+        for (int i = 0; i < list.size; i++) {
+            if (list.get(i).getUserData() instanceof Integer) {
 
-                Array<Fixture> flist=list.get(i).getFixtureList();
-                for(int j=0;j<flist.size;j++){
-                    ((PolygonSprite)flist.get(j).getUserData()).draw(polygonSpriteBatch);
+                Array<Fixture> flist = list.get(i).getFixtureList();
+                for (int j = 0; j < flist.size; j++) {
+                    ((PolygonSprite) flist.get(j).getUserData()).draw(polygonSpriteBatch);
                 }
             }
 
@@ -154,8 +153,8 @@ public class WorldRenderer implements Disposable{
     }
 
     private void drawBg() {
-        for(int i=-10;i<10;i++)
-            batch.draw(background, worldController.XX+i*Constants.VIEWPORT_WIDTH*2f, worldController.YY-Constants.VIEWPORT_HEIGHT, Constants.VIEWPORT_WIDTH*3f,Constants.VIEWPORT_HEIGHT*3);
+        for (int i = -10; i < 10; i++)
+            batch.draw(background, worldController.XX + i * Constants.VIEWPORT_WIDTH * 2f, worldController.YY - Constants.VIEWPORT_HEIGHT, Constants.VIEWPORT_WIDTH * 3f, Constants.VIEWPORT_HEIGHT * 3);
 
 
     }

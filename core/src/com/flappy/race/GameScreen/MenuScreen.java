@@ -27,15 +27,16 @@ public class MenuScreen extends AbstractGameScreen {
     Stage stage;
     Skin defaultSkin;
     BitmapFont font12;
-    TextButton playTextButton,helpTextButton,aboutTextButton,shareTextButton,lbdTextButton;
+    TextButton playTextButton, helpTextButton, aboutTextButton, shareTextButton, lbdTextButton;
     TextButton.TextButtonStyle textButtonStyle;
 
-    Cell playCell,aboutCell,helpCell;
+    Cell playCell, aboutCell, helpCell;
     IActivityRequestHandler iActivityRequestHandler;
-    public MenuScreen(Game game,IActivityRequestHandler myRequestHandler){
+
+    public MenuScreen(Game game, IActivityRequestHandler myRequestHandler) {
         super(game);
         Gdx.input.setCatchBackKey(false);
-        iActivityRequestHandler= myRequestHandler;
+        iActivityRequestHandler = myRequestHandler;
         //setMyGameCallback(myGameCallback);
         stage = new Stage();
 
@@ -43,17 +44,16 @@ public class MenuScreen extends AbstractGameScreen {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Roboto.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 60;
-        parameter.shadowOffsetX=1;
-        parameter.shadowColor=Color.WHITE;
-        parameter.color=Color.ORANGE;
+        parameter.shadowOffsetX = 1;
+        parameter.shadowColor = Color.WHITE;
+        parameter.color = Color.ORANGE;
 
         font12 = generator.generateFont(parameter); // font size 12 pixel
         generator.dispose();
 
-       // textButtonStyle = new TextButton.TextButtonStyle();
+        // textButtonStyle = new TextButton.TextButtonStyle();
 
     }
-
 
 
     @Override
@@ -68,7 +68,7 @@ public class MenuScreen extends AbstractGameScreen {
 
     @Override
     public void render(float deltaTime) {
-        Gdx.gl.glClearColor(255/255f, 0/255f, 0/255f, 1.0f);
+        Gdx.gl.glClearColor(255 / 255f, 0 / 255f, 0 / 255f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(deltaTime);
         stage.draw();
@@ -84,13 +84,13 @@ public class MenuScreen extends AbstractGameScreen {
 
     private void onPlayClicked() {
 
-        game.setScreen(new CarSelectScreen(game,iActivityRequestHandler));//dummy level and vid..need to change after creating leve and veh secting page
+        game.setScreen(new CarSelectScreen(game, iActivityRequestHandler));//dummy level and vid..need to change after creating leve and veh secting page
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        Table table = new Table( defaultSkin );
+        Table table = new Table(defaultSkin);
         table.setSize(stage.getWidth(), stage.getHeight());
 
         //Drawable bg= (new Image(new Texture(Gdx.files.internal("bggg.jpg"))).getDrawable());
@@ -100,48 +100,47 @@ public class MenuScreen extends AbstractGameScreen {
 
 
         textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font=font12;
+        textButtonStyle.font = font12;
         textButtonStyle.up = new Image(Assets.instance.assetButtons.about).getDrawable();
         textButtonStyle.down = new Image(Assets.instance.assetButtons.aboutpress).getDrawable();
-        aboutTextButton = new TextButton("",defaultSkin);
+        aboutTextButton = new TextButton("", defaultSkin);
         aboutTextButton.setStyle(textButtonStyle);
         table.add(aboutTextButton).width(115).height(140).pad(10);
 
         textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font=font12;
+        textButtonStyle.font = font12;
         textButtonStyle.up = new Image(Assets.instance.assetButtons.lbd).getDrawable();
         textButtonStyle.down = new Image(Assets.instance.assetButtons.lbdpress).getDrawable();
-        lbdTextButton = new TextButton("",defaultSkin);
+        lbdTextButton = new TextButton("", defaultSkin);
         lbdTextButton.setStyle(textButtonStyle);
         aboutCell = table.add(lbdTextButton).width(115).height(140).pad(10);
 
         textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font=font12;
+        textButtonStyle.font = font12;
         textButtonStyle.up = new Image(Assets.instance.assetButtons.play).getDrawable();
         textButtonStyle.down = new Image(Assets.instance.assetButtons.playpress).getDrawable();
 
-        playTextButton = new TextButton("",defaultSkin);
+        playTextButton = new TextButton("", defaultSkin);
         playTextButton.setStyle(textButtonStyle);
         //playTextButton.setSize(10, 10);
         playCell = table.add(playTextButton).width(155).height(187).pad(10);
 
         textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font=font12;
+        textButtonStyle.font = font12;
         textButtonStyle.up = new Image(Assets.instance.assetButtons.help).getDrawable();
         textButtonStyle.down = new Image(Assets.instance.assetButtons.helppress).getDrawable();
-        helpTextButton = new TextButton("",defaultSkin);
+        helpTextButton = new TextButton("", defaultSkin);
         helpTextButton.setStyle(textButtonStyle);
         helpCell = table.add(helpTextButton).width(115).height(140).pad(10);
 
 
         textButtonStyle = new TextButton.TextButtonStyle();
-        textButtonStyle.font=font12;
+        textButtonStyle.font = font12;
         textButtonStyle.up = new Image(Assets.instance.assetButtons.share).getDrawable();
         textButtonStyle.down = new Image(Assets.instance.assetButtons.sharepress).getDrawable();
-        shareTextButton = new TextButton("",defaultSkin);
+        shareTextButton = new TextButton("", defaultSkin);
         shareTextButton.setStyle(textButtonStyle);
         table.add(shareTextButton).width(115).height(140).pad(10);
-
 
 
         helpTextButton.addListener(new InputListener() {
@@ -159,8 +158,6 @@ public class MenuScreen extends AbstractGameScreen {
                 // worldController.keyUp(Input.Keys.SPACE);
             }
         });
-
-
 
 
         aboutTextButton.addListener(new InputListener() {
@@ -195,7 +192,6 @@ public class MenuScreen extends AbstractGameScreen {
                 // worldController.keyUp(Input.Keys.SPACE);
             }
         });
-
 
 
         playTextButton.addListener(new InputListener() {
@@ -237,7 +233,7 @@ public class MenuScreen extends AbstractGameScreen {
 
     @Override
     public void hide() {
-       dispose();
+        dispose();
     }
 
     @Override

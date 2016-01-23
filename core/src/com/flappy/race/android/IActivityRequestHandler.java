@@ -5,10 +5,15 @@ package com.flappy.race.android;
  */
 public interface IActivityRequestHandler {
     public void showAds(boolean show);
+
     public void showInt(boolean show);
+
     public void share();
+
     public void onStartSomeActivity(long someParameter, long someOtherParameter);
+
     public void showCredits(boolean show);
+
     public void fbLike();
-    }
+}
 

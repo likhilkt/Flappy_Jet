@@ -10,31 +10,32 @@ import com.flappy.race.android.IActivityRequestHandler;
 
 
 public class MyGdxGame extends Game {
-	private IActivityRequestHandler myRequestHandler;
-	//MenuScreen.MyGameCallback myGameCallback;
-	public MyGdxGame(IActivityRequestHandler iActivityRequestHandler) {
-			myRequestHandler = iActivityRequestHandler;
-		//this.myGameCallback = myGameCallback;
+    private IActivityRequestHandler myRequestHandler;
 
-	}
+    //MenuScreen.MyGameCallback myGameCallback;
+    public MyGdxGame(IActivityRequestHandler iActivityRequestHandler) {
+        myRequestHandler = iActivityRequestHandler;
+        //this.myGameCallback = myGameCallback;
 
-	@Override
-	public void create () {
+    }
 
-		Gdx.app.setLogLevel(Application.LOG_DEBUG);
-		// Load assets
-		Assets.instance.init(new AssetManager());
-		// Start game at menu screen
-		//actionResolver.showOrLoadInterstital();
-		//setScreen(new MenuScreen(this,actionResolver)
+    @Override
+    public void create() {
 
-		setScreen(new MenuScreen(this,myRequestHandler));
-	}
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        // Load assets
+        Assets.instance.init(new AssetManager());
+        // Start game at menu screen
+        //actionResolver.showOrLoadInterstital();
+        //setScreen(new MenuScreen(this,actionResolver)
 
-	@Override
-	public void dispose() {
-		super.dispose();
-		System.out.println("indoisp");
-		Assets.instance.dispose();
-	}
+        setScreen(new MenuScreen(this, myRequestHandler));
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        System.out.println("indoisp");
+        Assets.instance.dispose();
+    }
 }

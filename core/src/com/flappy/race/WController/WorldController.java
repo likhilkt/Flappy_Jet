@@ -28,42 +28,72 @@ import com.flappy.race.Utils.UserData;
 /**
  * Created by Likhil on 8/30/2015.
  */
-public class WorldController  extends InputAdapter {
+public class WorldController extends InputAdapter {
+    public boolean safeFire = true, fireFuck;
+    public World world;
+    public float XX = 0, YY = 0, delDist;
+    public float start, end;
+    public Body prev, curr;
     HighScore highScore;
     int contrId;
     int health;
-    boolean hitEffect,rdxEffect;
-    public boolean safeFire=true,fireFuck;
+    boolean hitEffect, rdxEffect;
     Music music;
-    Sound wavSound,eneExpSound,crashSound,pickupSound,hurtSound;
-    int mainCount=0;
-    Vector2 eneExpPos,rdxPos;
-    public World world;
+    Sound wavSound, eneExpSound, crashSound, pickupSound, hurtSound;
+    int mainCount = 0;
+    Vector2 eneExpPos, rdxPos;
     float dt;
     Array<Body> deleteBodies;
     Game game;
     Ball ball;
     ObjectCreator objectCreator;
-    ParticleEffect p,p2,enemyExp,enemyExp1,rdxExp;
-    long lastTime=0;
-    boolean hitWaitOver=false;
-    boolean explode=false,delFalg,enemExpBoolean,kill,pause;
-    public float XX=0,YY=0,delDist;
-    int coinAnInt=0,coinCount,rdxAnInt,enemyAnInt;
-    int fuck=0,fireCount=0;
-    Array<Body> resetList,rdxList;
+    ParticleEffect p, p2, enemyExp, enemyExp1, rdxExp;
+    long lastTime = 0;
+    boolean hitWaitOver = false;
+    boolean explode = false, delFalg, enemExpBoolean, kill, pause;
+    int coinAnInt = 0, coinCount, rdxAnInt, enemyAnInt;
+    int fuck = 0, fireCount = 0;
+    Array<Body> resetList, rdxList;
     long score;
     boolean isDist;
     float centerY;
-    public float start,end;
-    public int getFireCount(){
+    GameScreen gameScreen;
+    int xx = 0;
+    float xx1 = 0;
+    float xx2 = 0;
+    boolean flag = true;
+    int bCounter = 0;
+
+    public WorldController(Game game, int vid, GameScreen gameScreen) {
+        highScore = new HighScore();
+        gameScreen.iActivityRequestHandler.showAds(false);
+        contrId = vid;
+        this.game = game;
+        this.gameScreen = gameScreen;
+        Gdx.input.setCatchBackKey(true);
+        flag = false;
+        loadAss();
+
+        initSetup();
+
+        music.play();
+
+
+        flag = true;
+
+
+    }
+
+    public int getFireCount() {
         return fireCount;
     }
-    private void initVars(){
+
+    private void initVars() {
         centerY = 0;
         isDist = false;
-        score= 0;
-        rdxAnInt = 0; enemyAnInt = 0;
+        score = 0;
+        rdxAnInt = 0;
+        enemyAnInt = 0;
         hitEffect = false;
         rdxEffect = false;
         lastTime = 0;
@@ -72,44 +102,49 @@ public class WorldController  extends InputAdapter {
         coinCount = 0;
         resetList = new Array<Body>();
         rdxList = new Array<Body>();
-        fireCount=0;
+        fireCount = 0;
         safeFire = true;
         fireFuck = false;
         fuck = 0;
         coinAnInt = 0;
         pause = false;
 
-        kill=true;
+        kill = true;
         mainCount = 0;
-        enemExpBoolean=false;
-        eneExpPos = new Vector2(0,0);
-        rdxPos = new Vector2(0,0);
-        XX=0;YY=0;
-        delDist  = 40;
+        enemExpBoolean = false;
+        eneExpPos = new Vector2(0, 0);
+        rdxPos = new Vector2(0, 0);
+        XX = 0;
+        YY = 0;
+        delDist = 40;
         delFalg = true;
         world = new World(new Vector2(0f, -9f), true);
 
         deleteBodies = new Array<Body>();
-        ball = new Ball(world,0,12);
-        objectCreator = new ObjectCreator(-10,0);
+        ball = new Ball(world, 0, 12);
+        objectCreator = new ObjectCreator(-10, 0);
         //objectCreator.createEnemy2(world,5,5,0);
         objectCreator.initEnemy(world);
         objectCreator.initCoin();
         objectCreator.initRdx(world);
 
         explode = false;
-        xx=0;
-        xx1=0;
+        xx = 0;
+        xx1 = 0;
         bCounter = 0;
 
-        p.reset();p2.reset();enemyExp.reset();
+        p.reset();
+        p2.reset();
+        enemyExp.reset();
 
     }
-    public int getCoins(){
+
+    public int getCoins() {
         return coinAnInt;
     }
+
     //vars
-    public void  loadAss(){
+    public void loadAss() {
 
         p = new ParticleEffect();
         p.load(Gdx.files.internal("exh.p"), Gdx.files.internal(""));
@@ -142,11 +177,11 @@ public class WorldController  extends InputAdapter {
         enemyExp.load(Gdx.files.internal("red_exp/red_explosion.p"), Gdx.files.internal("red_exp"));
         enemyExp.scaleEffect(0.07f);
         */
-        wavSound= Gdx.audio.newSound(Gdx.files.internal("sounds/Hit_Hurt21.wav"));
-        eneExpSound= Gdx.audio.newSound(Gdx.files.internal("sounds/Explosion.wav"));
+        wavSound = Gdx.audio.newSound(Gdx.files.internal("sounds/Hit_Hurt21.wav"));
+        eneExpSound = Gdx.audio.newSound(Gdx.files.internal("sounds/Explosion.wav"));
         crashSound = Gdx.audio.newSound(Gdx.files.internal("sounds/crash.wav"));
-        pickupSound  = Gdx.audio.newSound(Gdx.files.internal("sounds/Pickup_Coin.wav"));
-        hurtSound  = Gdx.audio.newSound(Gdx.files.internal("sounds/Hurt.wav"));
+        pickupSound = Gdx.audio.newSound(Gdx.files.internal("sounds/Pickup_Coin.wav"));
+        hurtSound = Gdx.audio.newSound(Gdx.files.internal("sounds/Hurt.wav"));
 
         music = Gdx.audio.newMusic(Gdx.files.internal("sounds/sondimg.mp3"));
         music.setLooping(true);
@@ -155,34 +190,13 @@ public class WorldController  extends InputAdapter {
 
     }
 
-    private void  initSetup(){
-    initVars();
+    private void initSetup() {
+        initVars();
         //curr=objectCreator.genRandom2(world, BodyDef.BodyType.StaticBody);
-       curr=objectCreator.genStraingh2(world, BodyDef.BodyType.StaticBody);
+        curr = objectCreator.genStraingh2(world, BodyDef.BodyType.StaticBody);
         centerY = objectCreator.getCenterY();
-       //curr = objectCreator.genInitialpath(world);
+        //curr = objectCreator.genInitialpath(world);
         setContact();
-
-    }
-    GameScreen gameScreen;
-    public WorldController (Game game,int vid,GameScreen gameScreen) {
-        highScore = new HighScore();
-        gameScreen.iActivityRequestHandler.showAds(false);
-        contrId = vid;
-        this.game = game;
-        this.gameScreen = gameScreen;
-        Gdx.input.setCatchBackKey(true);
-        flag=false;
-        loadAss();
-
-        initSetup();
-
-        music.play();
-        
-
-        flag=true;
-
-
 
     }
 
@@ -212,7 +226,7 @@ public class WorldController  extends InputAdapter {
                         } else if (((UserData) b.getUserData()).TYPE == Constants.TYPE_RDX) {
                             coinAnInt++;
                             rdxAnInt++;
-                            rdxEffect  =  true;
+                            rdxEffect = true;
                             rdxExp.start();
                             crashSound.play();//re-check it
                             rdxPos = b.getPosition();
@@ -239,17 +253,16 @@ public class WorldController  extends InputAdapter {
                         }
                     }
 
-                    if(((UserData) a.getUserData()).TYPE == Constants.TYPE_BALL){
-                        if(((UserData) b.getUserData()).TYPE == Constants.TYPE_RDX){
+                    if (((UserData) a.getUserData()).TYPE == Constants.TYPE_BALL) {
+                        if (((UserData) b.getUserData()).TYPE == Constants.TYPE_RDX) {
                             rdxPos = b.getPosition();
                             explode = true;
                             rdxEffect = true;
                             p2.start();
                             rdxExp.start();
                         }
-                    }
-                    else if(((UserData) b.getUserData()).TYPE == Constants.TYPE_BALL){
-                        if(((UserData) a.getUserData()).TYPE == Constants.TYPE_RDX){
+                    } else if (((UserData) b.getUserData()).TYPE == Constants.TYPE_BALL) {
+                        if (((UserData) a.getUserData()).TYPE == Constants.TYPE_RDX) {
                             rdxPos = a.getPosition();
                             explode = true;
                             rdxEffect = true;
@@ -258,46 +271,45 @@ public class WorldController  extends InputAdapter {
                         }
                     }
 
+                } else if (a.getUserData() instanceof Integer) {
+                    if (b.getUserData() instanceof UserData)
+                        if (((UserData) b.getUserData()).TYPE == Constants.TYPE_BALL) {
+                            if (hitWaitOver) {
+                                System.out.println("im hit : " + health--);
+                                gameScreen.bar.setValue(health);
+                                hitEffect = true;
+                                enemyExp1.start();
+                                hurtSound.play();
+                                if (health == 0) {
+                                    explode = true;
+                                    p2.start();
+                                }
+                            }
+
+
+                            checkHit();
+                            return;
+                        }
+
+                } else if (b.getUserData() instanceof Integer) {
+                    if (a.getUserData() instanceof UserData)
+                        if (((UserData) a.getUserData()).TYPE == Constants.TYPE_BALL) {
+                            if (hitWaitOver) {
+                                System.out.println("im hit : " + health--);
+                                gameScreen.bar.setValue(health);
+
+                                hitEffect = true;
+                                enemyExp1.start();
+                                hurtSound.play();
+                                if (health == 0) {
+                                    explode = true;
+                                    p2.start();
+                                }
+                            }
+                            checkHit();
+                            return;
+                        }
                 }
-                else if (a.getUserData() instanceof Integer) {
-                        if (b.getUserData() instanceof UserData)
-                            if (((UserData) b.getUserData()).TYPE == Constants.TYPE_BALL) {
-                                if (hitWaitOver) {
-                                    System.out.println("im hit : " + health--);
-                                    gameScreen.bar.setValue(health);
-                                    hitEffect = true;
-                                    enemyExp1.start();
-                                    hurtSound.play();
-                                    if (health == 0) {
-                                        explode = true;
-                                        p2.start();
-                                    }
-                                }
-
-
-                                checkHit();
-                                return;
-                            }
-
-                    } else if (b.getUserData() instanceof Integer) {
-                        if (a.getUserData() instanceof UserData)
-                            if (((UserData) a.getUserData()).TYPE == Constants.TYPE_BALL) {
-                                if (hitWaitOver) {
-                                    System.out.println("im hit : " + health--);
-                                    gameScreen.bar.setValue(health);
-
-                                    hitEffect = true;
-                                    enemyExp1.start();
-                                    hurtSound.play();
-                                    if (health == 0) {
-                                        explode = true;
-                                        p2.start();
-                                    }
-                                }
-                                checkHit();
-                                return;
-                            }
-                    }
 
 
             }
@@ -319,128 +331,125 @@ public class WorldController  extends InputAdapter {
         });
 
 
-}
+    }
 
-    public void checkHit(){
-        long cTime=TimeUtils.millis();
-        if(lastTime==0) {
+    public void checkHit() {
+        long cTime = TimeUtils.millis();
+        if (lastTime == 0) {
             lastTime = cTime;
         }
-        if(hitWaitOver)
-        {
+        if (hitWaitOver) {
             lastTime = cTime;
         }
-        if(TimeUtils.timeSinceMillis(lastTime)>1000)
+        if (TimeUtils.timeSinceMillis(lastTime) > 1000)
             hitWaitOver = true;
-        else{
+        else {
             //System.out.println("false");
             hitWaitOver = false;
         }
 
     }
 
-    int xx=0;float xx1=0;float xx2=0;
     public void update(float delta) {
 
-            dt = delta;
-            collisionCoinFlight();
-            resetEnemy();
-            genStage();
-            if (!explode) {
-                moveBall(delta);
+        dt = delta;
+        collisionCoinFlight();
+        resetEnemy();
+        genStage();
+        if (!explode) {
+            moveBall(delta);
                /* xx2++;
                 if(xx2>10) { //impact
                     fire();
                     xx2=0;
                 }*/
+        }
+        updateParticle(delta);
+
+        if (explode && !pause) {
+            xx++;
+            if (xx == 1) {
+                crashSound.play();
             }
-            updateParticle(delta);
+            if (xx > 100) {
+                xx = 0;
+                pause = true;
+                //disposeSounds();
 
-            if (explode && !pause) {
-                xx++;
-                if (xx == 1) {
-                    crashSound.play();
-                }
-                if (xx > 100) {
-                    xx = 0;
-                    pause = true;
-                    //disposeSounds();
-
-                    updateDeleteBodiesAll();
-                    gameScreen.showWin(getGameOverString());
-                }
-
+                updateDeleteBodiesAll();
+                gameScreen.showWin(getGameOverString());
             }
-
-            //delete old bodies
-            if (ball.getPositionX() > delDist) {
-                updateDeleteBodies();
-            }
-                killKinos();
-
 
         }
 
+        //delete old bodies
+        if (ball.getPositionX() > delDist) {
+            updateDeleteBodies();
+        }
+        killKinos();
+
+
+    }
+
     private String getGameOverString() {
-        score = (int)ball.getPositionX()+getCoinCount()*20+rdxAnInt*50+enemyAnInt*30;
+        score = (int) ball.getPositionX() + getCoinCount() * 20 + rdxAnInt * 50 + enemyAnInt * 30;
         String pre = "";
 
-        if(highScore.isHigh((int)ball.getPositionX(),score))
+        if (highScore.isHigh((int) ball.getPositionX(), score))
             pre = "New High Score..!!\n\n";
 
-        return pre+"Distance : "+getDistance()+"m\n" +
-                "Coins   : "+getCoinCount()+" x 20\n" +
-                "RDXBox  : "+rdxAnInt+" x 50\n" +
-                "Bug     : "+enemyAnInt+" x 30\n" +
-                "Total   : "+score+"\n\nLONGEST RUN : "+highScore.getLongDist();
+        return pre + "Distance : " + getDistance() + "m\n" +
+                "Coins   : " + getCoinCount() + " x 20\n" +
+                "RDXBox  : " + rdxAnInt + " x 50\n" +
+                "Bug     : " + enemyAnInt + " x 30\n" +
+                "Total   : " + score + "\n\nLONGEST RUN : " + highScore.getLongDist();
 
     }
 
     private void updateDeleteBodiesAll() {
         Array<Body> bodyArray = new Array<Body>();
         world.getBodies(bodyArray);
-        while (bodyArray.size>0) {
-            Body temp= bodyArray.pop();
-            if(temp.getType()!= BodyDef.BodyType.KinematicBody)
+        while (bodyArray.size > 0) {
+            Body temp = bodyArray.pop();
+            if (temp.getType() != BodyDef.BodyType.KinematicBody)
                 deleteBodies.add(temp);
-            temp=null;
+            temp = null;
         }
-        }
+    }
 
     private void updateDeleteBodies() {
         delFalg = false;
         //System.out.println("in delete");
-        float ds=ball.getPositionX()-10;
+        float ds = ball.getPositionX() - 10;
         Array<Body> bodyArray = new Array<Body>();
         world.getBodies(bodyArray);
 
 
-
-        while (bodyArray.size>0){
-            Body temp =bodyArray.pop();
-            if(temp.getType()==BodyDef.BodyType.DynamicBody && temp.getPosition().x<ds) {
+        while (bodyArray.size > 0) {
+            Body temp = bodyArray.pop();
+            if (temp.getType() == BodyDef.BodyType.DynamicBody && temp.getPosition().x < ds) {
                 //deleteBodies.add(temp);
-               // System.out.println("in if");
-                if(((UserData)temp.getUserData()).TYPE == Constants.TYPE_ENEMY)
+                // System.out.println("in if");
+                if (((UserData) temp.getUserData()).TYPE == Constants.TYPE_ENEMY)
                     objectCreator.resetEnemy(temp);
-                else if(((UserData)temp.getUserData()).TYPE == Constants.TYPE_RDX)
+                else if (((UserData) temp.getUserData()).TYPE == Constants.TYPE_RDX)
                     objectCreator.resetRdx(temp);
             }
         }
-        delDist+=40;
+        delDist += 40;
         delFalg = true;
     }
 
-    public void resetEnemy(){
-        while (resetList.size>0){
+    public void resetEnemy() {
+        while (resetList.size > 0) {
             objectCreator.resetEnemy(resetList.pop());
         }
-        while (rdxList.size>0)
+        while (rdxList.size > 0)
             objectCreator.resetEnemy(rdxList.pop());
     }
 
     public void disposeSounds() {
-       // Gdx.app.debug("swe", "dispose sound");
+        // Gdx.app.debug("swe", "dispose sound");
         wavSound.dispose();
         crashSound.dispose();
         eneExpSound.dispose();
@@ -456,13 +465,13 @@ public class WorldController  extends InputAdapter {
     }
 
     private void killKinos() {
-        if(kill){
-            kill=false;
-            Array<Body> temp=new Array<Body>();
+        if (kill) {
+            kill = false;
+            Array<Body> temp = new Array<Body>();
             world.getBodies(temp);
-            while (temp.size>0){
-                Body tb=temp.pop();
-                if(tb.getType()== BodyDef.BodyType.KinematicBody && tb.getPosition().x>ball.getPositionX()+40) {
+            while (temp.size > 0) {
+                Body tb = temp.pop();
+                if (tb.getType() == BodyDef.BodyType.KinematicBody && tb.getPosition().x > ball.getPositionX() + 40) {
                     // tb.setActive(false);
                     // tb.setType(BodyDef.BodyType.StaticBody);
                     // tb.setUserData(null);
@@ -472,88 +481,82 @@ public class WorldController  extends InputAdapter {
             }
 
             temp.clear();
-            kill=true;
+            kill = true;
         }
     }
 
-
     private void updateParticle(float delta) {
 
-       if(explode)
-           p2.update(delta);
+        if (explode)
+            p2.update(delta);
         else
-           p.update(delta);
-        if(enemExpBoolean)
+            p.update(delta);
+        if (enemExpBoolean)
             enemyExp.update(delta);
-        if(enemyExp.isComplete()) enemExpBoolean = false;
+        if (enemyExp.isComplete()) enemExpBoolean = false;
 
-        if(p.isComplete() && !explode) {
+        if (p.isComplete() && !explode) {
             p.reset();
         }
         if (hitEffect)
             enemyExp1.update(delta);
-        if(enemyExp1.isComplete()) hitEffect = false;
+        if (enemyExp1.isComplete()) hitEffect = false;
 
-        if(rdxEffect){
+        if (rdxEffect) {
             rdxExp.update(delta);
         }
-        if(rdxExp.isComplete()) rdxEffect = false;
+        if (rdxExp.isComplete()) rdxEffect = false;
     }
 
     private void moveBall(float delta) {
         //if(++fuck%4==0)
-        switch (contrId){
+        switch (contrId) {
             case 1:
                 ball.tapBitch();
                 break;
             case 2:
                 try {
                     ball.goBitch(Gdx.input.getAccelerometerY());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                catch (Exception e){e.printStackTrace();}
                 break;
         }
 
     }
 
-    boolean flag=true;
-    int bCounter=0;
-    public Body prev,curr;
     private void genStage() {
 
-        if(flag&&(ball.getPositionX()>objectCreator.getx()-40)){
-            flag=false;
-            XX=objectCreator.getx();
-            YY=objectCreator.gety();
+        if (flag && (ball.getPositionX() > objectCreator.getx() - 40)) {
+            flag = false;
+            XX = objectCreator.getx();
+            YY = objectCreator.gety();
 
-            flag=false;
+            flag = false;
             updateDeleteBodies();
             objectCreator.updateMode();
             objectCreator.resetAllSprites();
-            if(mainCount==0) {
+            if (mainCount == 0) {
                 prev = curr;
                 //curr =  .genInfinit(world, 20);
-            }
-            else {
+            } else {
                 world.destroyBody(prev);
                 //deleteBodies.add(prev);
                 prev = curr;
                 //curr = createBody();
             }
 
-            if(mainCount%2==0) {
+            if (mainCount % 2 == 0) {
                 curr = objectCreator.genStraingh3(world, BodyDef.BodyType.StaticBody);
                 centerY = objectCreator.getCenterY();
 
-            }
-            else if(mainCount%3==0){
+            } else if (mainCount % 3 == 0) {
                 isDist = true;
                 curr = objectCreator.genRandom2(world, BodyDef.BodyType.StaticBody);
                 start = objectCreator.getStart();
                 end = objectCreator.getEnd();
-               // ball.dcrMaxSpeed();
-            }
-            else{
+                // ball.dcrMaxSpeed();
+            } else {
                 curr = objectCreator.genStraingh2(world, BodyDef.BodyType.StaticBody);
                 centerY = objectCreator.getCenterY();
             }
@@ -561,28 +564,26 @@ public class WorldController  extends InputAdapter {
             objectCreator.incEnySpd();
 
             mainCount++;
-            flag=true;
-
+            flag = true;
 
 
         }
 
 
-
     }
 
 
-    public Body genInfinit(World world, float fx,float fy) {
+    public Body genInfinit(World world, float fx, float fy) {
 
         return null;
     }
 
 
-    private void deadCheck(){
+    private void deadCheck() {
 
     }
 
-    public void fire(){
+    public void fire() {
         if (!explode && safeFire && fireFuck) {
             //fireFuck = false;
             fireCount++;
@@ -612,28 +613,25 @@ public class WorldController  extends InputAdapter {
                 fireFuck = true;
                 fire();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return super.touchDown(screenX, screenY, pointer, button);
     }
 
-    public void backToMenu () {
+    public void backToMenu() {
         // switch to menu screen
         gameScreen.iActivityRequestHandler.showInt(true);
-        game.setScreen(new MenuScreen(game,gameScreen.iActivityRequestHandler));
+        game.setScreen(new MenuScreen(game, gameScreen.iActivityRequestHandler));
     }
 
     public boolean keyDown(int keyCode) {
 
-        if(Input.Keys.LEFT==keyCode) {
+        if (Input.Keys.LEFT == keyCode) {
             //ball.nitro();
             ball.tap();
-        }
-        else if(Input.Keys.UP==keyCode) {
-        }
-
-        else if(keyCode == Input.Keys.BACK){
+        } else if (Input.Keys.UP == keyCode) {
+        } else if (keyCode == Input.Keys.BACK) {
             backToMenu();
         }
         ////System.out.println("KeyDown");
@@ -642,42 +640,43 @@ public class WorldController  extends InputAdapter {
 
     @Override
     public boolean keyUp(int keyCode) {
-        if(Input.Keys.LEFT==keyCode) {
+        //if (Input.Keys.LEFT == keyCode) {
             //ball.releaseNitro();
-        }
+        //}
         return super.keyUp(keyCode);
 
     }
 
 
+    public String getDistance() {
 
-    public String getDistance(){
-
-        return Integer.toString((int)ball.getPositionX());
+        return Integer.toString((int) ball.getPositionX());
 
     }
 
-    public String getSpeed(){
+    public String getSpeed() {
         return Double.toString(9);
     }
-    public void resetAll(){
-        flag=false;
+
+    public void resetAll() {
+        flag = false;
         objectCreator.dispose();
         world.dispose();
         ball.dispose();
 
         initSetup();
-        flag=true;
+        flag = true;
     }
 
 
-    public  int getCoinCount(){
+    public int getCoinCount() {
         return coinCount;
     }
-    private void collisionCoinFlight(){
-        Rectangle tempRectangle = new Rectangle(ball.getPositionX(),ball.getPositionY(),3f,1f);
-        for(int i=0;i<10;i++){
-            if(objectCreator.coinSprites.get(i).getBoundingRectangle().overlaps(tempRectangle)){
+
+    private void collisionCoinFlight() {
+        Rectangle tempRectangle = new Rectangle(ball.getPositionX(), ball.getPositionY(), 3f, 1f);
+        for (int i = 0; i < 10; i++) {
+            if (objectCreator.coinSprites.get(i).getBoundingRectangle().overlaps(tempRectangle)) {
                 objectCreator.resetCoin(i);
                 pickupSound.play();
                 coinCount++;
